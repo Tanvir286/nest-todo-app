@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entity/user.enity';
+import { TodoModule } from './todo/todo.module';
 
 @Module({
   imports: [
@@ -18,8 +17,7 @@ import { User } from './entity/user.enity';
       entities: [User],
       synchronize: true, 
     }),
-    AuthModule],
-  controllers: [AppController],
-  providers: [AppService],
+    AuthModule,
+    TodoModule],
 })
 export class AppModule {}
