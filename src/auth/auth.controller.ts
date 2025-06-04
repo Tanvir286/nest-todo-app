@@ -17,7 +17,7 @@ import { LoginDto } from './dto/login.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  /*============( Register User start )============*/
+  /*◀️============( Register User start )============▶️*/
   @Post('register')
   @UseInterceptors(FileInterceptor('image', {
     storage: diskStorage({
@@ -29,21 +29,18 @@ export class AuthController {
       },
     }),
   }))
-  async register(
-    @UploadedFile() image: Express.Multer.File,
-    @Body() registerDto: RegisterDto
-  ) {
+  async register(@UploadedFile() image: Express.Multer.File,@Body() registerDto: RegisterDto) {
     return this.authService.register(registerDto, image?.filename);
   }
-  /*============( Register User end )============*/
+  /*◀️============( Register User end )============▶️*/
 
 
-  /*============( Login User start )============*/
+  /*◀️============( Login User start )============▶️*/
   @Post('login')
   async login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);
   }
-  /*============( Login User end )============*/
+  /*◀️============( Login User end )============▶️*/
 
 
 

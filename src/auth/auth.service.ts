@@ -20,6 +20,7 @@ export class AuthService {
   =================================================>*/
 
   async register(registerDto: RegisterDto, imageFilename?: string) {
+
   const { name, email, password } = registerDto;
 
   const existingUser = await this.userRepository.findOne({ where: { email } });
@@ -29,12 +30,11 @@ export class AuthService {
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
+
   const refreshToken = uuidv4();
 
   // Full image URL তৈরি করুন
-  const imageUrl = imageFilename
-    ? `http://localhost:3000/uploads/${imageFilename}`
-    : undefined;
+  const imageUrl = imageFilename ? imageFilename: undefined;
 
   const user = this.userRepository.create({
     name,
