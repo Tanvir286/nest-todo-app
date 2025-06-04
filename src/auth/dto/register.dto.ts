@@ -19,4 +19,5 @@ export class RegisterDto {
   // @IsOptional()
   // @IsString()
   // image?: string; 
+  // ছবি ফাইল এখানে থাকবে না, কারণ file আলাদাভাবে হ্যান্ডল হবে controller-এ
 }

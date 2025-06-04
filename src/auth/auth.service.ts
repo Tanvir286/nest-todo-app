@@ -19,45 +19,51 @@ export class AuthService {
   /*<===============(Register Start)===============>
   =================================================>*/
 
-  async register(registerDto: RegisterDto) {
-    
-    const { name, email, password } = registerDto;
+  async register(registerDto: RegisterDto, imageFilename?: string) {
+  const { name, email, password } = registerDto;
 
-    const existingUser = await this.userRepository.findOne({ where: { email } });
+  const existingUser = await this.userRepository.findOne({ where: { email } });
 
-    if (existingUser) {
-      throw new UnauthorizedException('User already exists');
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const refreshToken = uuidv4(); // ✅ রিফ্রেশ টোকেন তৈরি
-
-    const user = this.userRepository.create({
-      name,
-      email,
-      password: hashedPassword,
-      refreshToken,
-    });
-
-    await this.userRepository.save(user);
-
-    // ✅ JWT Token Payload
-    const payload = {
-      sub: user.id,
-      email: user.email,
-      name: user.name,
-    };
-
-    return {
-      message: 'User registered successfully',
-      access_token: this.jwtService.sign(payload), // ✅ অ্যাক্সেস টোকেন
-      refresh_token: this.jwtService.sign({ refreshToken }, { expiresIn: '7d' }), // ✅ রিফ্রেশ টোকেন
-      user: {
-        ...payload
-      },
-    };
+  if (existingUser) {
+    throw new UnauthorizedException('User already exists');
   }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const refreshToken = uuidv4();
+
+  // Full image URL তৈরি করুন
+  const imageUrl = imageFilename
+    ? `http://localhost:3000/uploads/${imageFilename}`
+    : undefined;
+
+  const user = this.userRepository.create({
+    name,
+    email,
+    password: hashedPassword,
+    refreshToken,
+    image: imageUrl, 
+  });
+
+  await this.userRepository.save(user);
+
+  const payload = {
+    sub: user.id,
+    email: user.email,
+    name: user.name,
+    image: user.image,
+  };
+
+  return {
+    message: 'User registered successfully',
+    access_token: this.jwtService.sign(payload),
+    refresh_token: this.jwtService.sign({ refreshToken }, { expiresIn: '7d' }),
+    user: {
+      ...payload,
+    },
+  };
+}
+
+
   /*<===============(Register End)===============>
   =================================================>*/
 
@@ -90,6 +96,7 @@ export class AuthService {
       sub: user.id,
       email: user.email,
       name: user.name,
+      image: user.image, 
     };
 
     return {

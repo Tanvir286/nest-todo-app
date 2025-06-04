@@ -1,14 +1,16 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path';
 
 async function bootstrap() {
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-  const app = await NestFactory.create(AppModule);
+  // ইউআরএল এ /uploads/ দিয়ে access করা যাবে
+  app.useStaticAssets(join(__dirname, '..', 'uploads'), {
+    prefix: '/uploads/',  
+  });
 
-  app.useGlobalPipes(new ValidationPipe());
-
-  await app.listen(process.env.PORT ?? 3000);
-
+  await app.listen(3000);
 }
 bootstrap();

@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class User {
@@ -8,12 +8,16 @@ export class User {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ unique: true })
   email: string;
 
   @Column()
   password: string;
 
   @Column({ nullable: true })
-  refreshToken?: string;
+  refreshToken: string;
+
+  @Column({ nullable: true })
+  image: string; // ✅ এই লাইনটি যোগ করুন
+  
 }
