@@ -6,7 +6,6 @@ import { join } from 'path';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-  // ইউআরএল এ /uploads/ দিয়ে access করা যাবে
   app.useStaticAssets(join(__dirname, '..', 'uploads'), {
     prefix: '/uploads/',  
   });

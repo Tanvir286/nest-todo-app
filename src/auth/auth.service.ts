@@ -11,10 +11,8 @@ import { LoginDto } from './dto/login.dto';
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(User)
-    private userRepository: Repository<User>,
-    private jwtService: JwtService,
-  ) {}
+    @InjectRepository(User) private userRepository: Repository<User>,
+    private jwtService: JwtService,) {}
 
   /*<===============(Register Start)===============>
   =================================================>*/
