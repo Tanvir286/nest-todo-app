@@ -16,6 +16,9 @@ export class TodoController {
     const userName = req.user.name;
     console.log('User ID:', userId);
     console.log('User Name:', userName);
+     console.log('User Name:', userName);
+      console.log('User Name:', userName);
+       console.log('User Name:', userName);
     return this.todoService.createTodo(createTodoDto,userId,userName); 
   }
 
