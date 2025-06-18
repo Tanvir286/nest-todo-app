@@ -14,6 +14,8 @@ export class TodoController {
   async createTodo(@Body() createTodoDto: CreateTodoDto, @Req() req) {
     const userId = req.user.id;
     const userName = req.user.name;
+    console.log('User ID:', userId);
+    console.log('User Name:', userName);
     return this.todoService.createTodo(createTodoDto,userId,userName); 
   }
 
