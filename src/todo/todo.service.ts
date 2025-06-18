@@ -6,7 +6,7 @@ import { CreateTodoDto } from './dto/create-todo.dto';
 
 @Injectable()
 export class TodoService {
-
+//mqbte
     constructor(
         @InjectRepository(CreateTodoEntity)
         private readonly todoRepository: Repository<CreateTodoEntity>
@@ -22,7 +22,7 @@ export class TodoService {
         await this.todoRepository.save(todo);
 
         return { message: 'Todo created successfully' };
-        
+
     }
 
   
