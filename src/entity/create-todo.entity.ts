@@ -2,7 +2,8 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
 
 @Entity()
-export class CreateTodo {
+export class CreateTodoEntity {
+
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -15,9 +16,14 @@ export class CreateTodo {
   @Column({ nullable: true })
   taskImage?: string;
 
-  @CreateDateColumn()
-  createdAt: Date;
+  @Column()
+  userId: number; // ➕ userId added
 
   @Column()
-  userId: string;
+  userName: string; // ➕ userName added
+
+
+  @CreateDateColumn()
+  createdAt: Date;
+  
 }
