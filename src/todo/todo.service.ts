@@ -12,6 +12,10 @@ export class TodoService {
         private readonly todoRepository: Repository<CreateTodoEntity>
     ) {}
 
+    /*<========================================>
+         🏳️   Create todo  Start    🏳️
+    ===========================================>*/
+
     async createTodo(
         createTodoDto: CreateTodoDto,
         userId: number,userName: string,
@@ -32,6 +36,10 @@ export class TodoService {
         return { message: 'Todo created successfully' };
 
     }
+
+    /*<========================================>
+       🚩       Create todo End        🚩
+    ===========================================>*/
 
 
 }
