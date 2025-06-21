@@ -12,14 +12,18 @@ export class TodoService {
         private readonly todoRepository: Repository<CreateTodoEntity>
     ) {}
 
-    async createTodo(createTodoDto: CreateTodoDto,userId: number,userName: string):  Promise<{ message: string }> {
+    async createTodo(
+        createTodoDto: CreateTodoDto,
+        userId: number,userName: string,
+        imagePath?: string,
+    ):Promise<{ message: string }> {
        
-
 
         const newTodo = {
             ...createTodoDto,
             userId,
             userName,
+            imagePath
         };
 
         const todo = this.todoRepository.create(newTodo);

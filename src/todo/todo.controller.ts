@@ -1,8 +1,18 @@
-import { Body, Controller, Post, Req, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body,
+         Controller, 
+         Post, 
+         Req, 
+         UseGuards,
+         UseInterceptors,
+         UploadedFile,
+        } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { JwtAuthGuard } from 'src/jwt-auth.guard';
-import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor } from '@nestjs/platform-express'; 
+import { diskStorage } from 'multer';
+import { extname } from 'path';
+
 
 @Controller('todo')
 export class TodoController {
@@ -10,14 +20,30 @@ export class TodoController {
 
   @Post('create')
   @UseGuards(JwtAuthGuard)
-  @UseInterceptors(FileFieldsInterceptor([])) 
-  async createTodo(@Body() createTodoDto: CreateTodoDto, @Req() req) {
+  @UseInterceptors(
+    FileInterceptor('imagePath', {
+      storage: diskStorage({
+        destination: './uploads', // Save images in uploads/ folder
+        filename: (req, file, cb) => {
+          const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+          const ext = extname(file.originalname);
+          cb(null, `${file.fieldname}-${uniqueSuffix}${ext}`);
+        },
+      }),
+    }),
+  )
+  async createTodo(
+    @Body() createTodoDto: CreateTodoDto,
+    @Req() req,
+    @UploadedFile() image: Express.Multer.File,
+  ) {
     const userId = req.user.id;
     const userName = req.user.name;
     console.log('Received DTO:', createTodoDto);
     console.log('User ID:', userId);
     console.log('User Name:', userName);
-    return this.todoService.createTodo(createTodoDto, userId, userName);
+    console.log('Image Filename:', image?.filename);
+    return this.todoService.createTodo(createTodoDto, userId, userName, image?.filename);
   }
 }
 

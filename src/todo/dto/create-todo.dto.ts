@@ -3,13 +3,13 @@ import { IsString, IsOptional } from 'class-validator';
 export class CreateTodoDto {
   @IsOptional()
   @IsString()
-  taskTitle?: string;
+  taskTitle: string;
 
   @IsOptional()
   @IsString()
-  taskDetails?: string;
+  taskDetails: string;
 
-  @IsOptional()
-  @IsString()
-  taskImage?: string;
+  // @IsOptional()
+  // @IsString()
+  // taskImage?: string;
 }

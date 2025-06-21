@@ -14,7 +14,7 @@ export class CreateTodoEntity {
   taskDetails: string;
 
   @Column({ nullable: true })
-  taskImage?: string;
+  imagePath?: string;
 
   @Column()
   userId: number; 
