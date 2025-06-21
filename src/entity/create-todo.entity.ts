@@ -1,7 +1,7 @@
 
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
 
-@Entity()
+@Entity('todo_list') 
 export class CreateTodoEntity {
 
   @PrimaryGeneratedColumn()
@@ -17,10 +17,10 @@ export class CreateTodoEntity {
   taskImage?: string;
 
   @Column()
-  userId: number; // ➕ userId added
+  userId: number; 
 
   @Column()
-  userName: string; // ➕ userName added
+  userName: string; 
 
 
   @CreateDateColumn()

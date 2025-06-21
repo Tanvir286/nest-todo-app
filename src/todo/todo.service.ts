@@ -14,25 +14,18 @@ export class TodoService {
 
     async createTodo(createTodoDto: CreateTodoDto,userId: number,userName: string):  Promise<{ message: string }> {
        
-        
-
-        console.log('User ID:', userId);
-        console.log('User Name:', userName);
         const newTodo = {
             ...createTodoDto,
             userId,
             userName,
         };
 
-        
         const todo = this.todoRepository.create(newTodo);
         await this.todoRepository.save(todo);
 
         return { message: 'Todo created successfully' };
 
     }
-
-  
 
 
 }

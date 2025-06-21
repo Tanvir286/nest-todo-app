@@ -10,13 +10,13 @@ export class TodoController {
 
   @Post('create')
   @UseGuards(JwtAuthGuard)
-  @UseInterceptors(FileFieldsInterceptor([])) // Use empty array since no files are expected
+  @UseInterceptors(FileFieldsInterceptor([])) 
   async createTodo(@Body() createTodoDto: CreateTodoDto, @Req() req) {
     const userId = req.user.id;
     const userName = req.user.name;
+    console.log('Received DTO:', createTodoDto);
     console.log('User ID:', userId);
     console.log('User Name:', userName);
-    console.log('DTO:', createTodoDto); // Log DTO to debug
     return this.todoService.createTodo(createTodoDto, userId, userName);
   }
 }
