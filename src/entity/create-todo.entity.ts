@@ -22,8 +22,8 @@ export class CreateTodoEntity {
   @Column()
   userName: string; 
 
-
   @CreateDateColumn()
   createdAt: Date;
   
 }
+
