@@ -5,6 +5,7 @@ import { Body,
          UseGuards,
          UseInterceptors,
          UploadedFile,
+         Get,
         } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
@@ -47,6 +48,18 @@ export class TodoController {
     return this.todoService.createTodo(createTodoDto, userId, userName, image?.filename);
   }
   /*🚩<===============(Create todo End)===============>🚩*/
+
+  /*🚩<===============(get todo start)===============>🚩*/
+
+  @Get('get')
+  @UseGuards(JwtAuthGuard)
+  async getPersonTodo(@Req() req) {
+    
+    const userId = req.user.id;
+    console.log('User ID:', userId);
+
+    return this.todoService.getPersonTodo(userId);
+  }
 
 
 
