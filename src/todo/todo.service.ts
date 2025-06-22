@@ -42,7 +42,7 @@ export class TodoService {
     ===========================================>*/
 
      /*<========================================>
-         🏳️   get person todo  Start    🏳️
+         🏳️   get person all todo  Start    🏳️
     ===========================================>*/
 
     async getPersonTodo(userId: number): Promise<CreateTodoEntity[]> {
@@ -52,7 +52,28 @@ export class TodoService {
     }
 
 
+    /*<========================================>
+       🚩     get person all todo End        🚩
+    ===========================================>*/
 
+    /*<========================================>
+         🏳️   get person todo by id  Start  🏳️
+    ===========================================>*/
+    async getTodoById(userId: number, id: number): Promise<CreateTodoEntity> {
+        console.log(userId, 'User ID in service');
+        console.log(id, 'Todo ID in service');
+        
+        const todo = await this.todoRepository.findOne({ where: { id, userId } });
+        
+        if (!todo) {
+            throw new Error('Todo not found');
+        }
+        
+        return todo;
+    }
+    /*<========================================>
+       🚩   get person todo by id End      🚩
+    ===========================================>*/
 
 
 

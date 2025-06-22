@@ -20,47 +20,58 @@ export class TodoController {
   constructor(private readonly todoService: TodoService) {}
 
   /*🏳️<===============(Create todo Start)===============>🏳️*/
-  @Post('create')
-  @UseGuards(JwtAuthGuard)
-  @UseInterceptors(
-    FileInterceptor('imagePath', {
-      storage: diskStorage({
-        destination: './uploads', // Save images in uploads/ folder
-        filename: (req, file, cb) => {
-          const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-          const ext = extname(file.originalname);
-          cb(null, `${file.fieldname}-${uniqueSuffix}${ext}`);
-        },
+    @Post('create')
+    @UseGuards(JwtAuthGuard)
+    @UseInterceptors(
+      FileInterceptor('imagePath', {
+        storage: diskStorage({
+          destination: './uploads', // Save images in uploads/ folder
+          filename: (req, file, cb) => {
+            const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+            const ext = extname(file.originalname);
+            cb(null, `${file.fieldname}-${uniqueSuffix}${ext}`);
+          },
+        }),
       }),
-    }),
-  )
-  async createTodo(
-    @Body() createTodoDto: CreateTodoDto,
-    @Req() req,
-    @UploadedFile() image: Express.Multer.File,
-  ) {
-    const userId = req.user.id;
-    const userName = req.user.name;
-    console.log('Received DTO:', createTodoDto);
-    console.log('User ID:', userId);
-    console.log('User Name:', userName);
-    console.log('Image Filename:', image?.filename);
-    return this.todoService.createTodo(createTodoDto, userId, userName, image?.filename);
-  }
+    )
+    async createTodo(
+      @Body() createTodoDto: CreateTodoDto,
+      @Req() req,
+      @UploadedFile() image: Express.Multer.File,
+    ) {
+      const userId = req.user.id;
+      const userName = req.user.name;
+      console.log('Received DTO:', createTodoDto);
+      console.log('User ID:', userId);
+      console.log('User Name:', userName);
+      console.log('Image Filename:', image?.filename);
+      return this.todoService.createTodo(createTodoDto, userId, userName, image?.filename);
+    }
   /*🚩<===============(Create todo End)===============>🚩*/
 
-  /*🚩<===============(get todo start)===============>🚩*/
+  /*🏳️<===============(get person all todo start)===============>🏳️*/
 
-  @Get('get')
-  @UseGuards(JwtAuthGuard)
-  async getPersonTodo(@Req() req) {
-    
-    const userId = req.user.id;
-    console.log('User ID:', userId);
+    @Get('get')
+    @UseGuards(JwtAuthGuard)
+    async getPersonTodo(@Req() req) {
+      const userId = req.user.id;
+      console.log('User ID:', userId);
+      return this.todoService.getPersonTodo(userId);
+    }
 
-    return this.todoService.getPersonTodo(userId);
-  }
+  /*🚩<===============(get person all todo end)===============>🚩*/
 
+  /*🏳️<===============(get person todo by id start)===============>🏳️*/
+
+    @Get('getById/:id')
+    @UseGuards(JwtAuthGuard)
+    async getTodoById(@Req() req, @Body('id') id: number) {
+      const userId = req.user.name;
+      console.log('User ID:', userId);
+      console.log('Todo ID:', id);
+      return this.todoService.getTodoById(userId, id);
+    }
+  /*🚩<===============(get person todo by id end)===============>🚩*/
 
 
 
