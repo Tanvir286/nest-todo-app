@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateTodoEntity } from 'src/entity/create-todo.entity';
 import { Repository } from 'typeorm';
@@ -60,22 +60,37 @@ export class TodoService {
          🏳️   get person todo by id  Start  🏳️
     ===========================================>*/
     async getTodoById(userId: number, id: number): Promise<CreateTodoEntity> {
-        console.log(userId, 'User ID in service');
-        console.log(id, 'Todo ID in service');
         
-        const todo = await this.todoRepository.findOne({ where: { id, userId } });
         
-        if (!todo) {
-            throw new Error('Todo not found');
-        }
+    const todo = await this.todoRepository.findOne({ where: { id, userId } });
+        
+        
+    if (!todo) {
+        throw new NotFoundException('Todo not found');
+    }
         
         return todo;
     }
     /*<========================================>
        🚩   get person todo by id End      🚩
     ===========================================>*/
+    /*<========================================>
+         🏳️   delete person todo by id  Start   🏳️
+    ===========================================>*/
+    async deleteTodoById(userId: number, id: number): Promise<{ message: string }> {
+        const todo = await this.todoRepository.findOne({ where: { id, userId } });
 
+        if (!todo) {
+            throw new NotFoundException('Todo not found');
+        }
 
+        await this.todoRepository.delete(id);
+
+        return { message: 'Todo deleted successfully' };
+    }
+    /*<========================================>
+       🚩   delete person todo by id End    🚩
+    ===========================================>*/
 
 
 }

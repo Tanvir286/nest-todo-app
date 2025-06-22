@@ -6,6 +6,8 @@ import { Body,
          UseInterceptors,
          UploadedFile,
          Get,
+         Param,
+         Delete,
         } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
@@ -65,13 +67,20 @@ export class TodoController {
 
     @Get('getById/:id')
     @UseGuards(JwtAuthGuard)
-    async getTodoById(@Req() req, @Body('id') id: number) {
-      const userId = req.user.name;
-      console.log('User ID:', userId);
-      console.log('Todo ID:', id);
+    async getTodoById(@Req() req, @ Param('id') id: number) {
+      const userId = req.user.id;
       return this.todoService.getTodoById(userId, id);
     }
   /*🚩<===============(get person todo by id end)===============>🚩*/
+  /*🏳️<===============(delete person todo by id start)===============>🏳️*/
+
+    @Delete('delete/:id')
+    @UseGuards(JwtAuthGuard)
+    async deleteTodoById(@Req() req, @Param('id') id: number) {
+      const userId = req.user.id;
+      return this.todoService.deleteTodoById(userId, id);
+    }
+  /*🚩<===============(delete person todo by id end)===============>🚩*/
 
 
 
