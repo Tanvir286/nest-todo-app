@@ -56,6 +56,7 @@ export class TodoService {
 
     if (imagePath) {
         todo.imagePath = imagePath;
+        
     }
 
     Object.assign(todo, updateTodoDto);
