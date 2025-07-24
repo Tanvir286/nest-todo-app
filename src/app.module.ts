@@ -10,12 +10,8 @@ import { CreateTodoEntity } from './entity/create-todo.entity';
     
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'postgres.railway.internal',
-      port:  5432,
-      username: 'postgres',
-      password: 'aYTPmaBTsdMVKgRcJQzuUFPhXjcoPiUa',
+      url: 'postgresql://postgres:aYTPmaBTsdMVKgRcJQzuUFPhXjcoPiUa@shuttle.proxy.rlwy.net:17110/railway',
       ssl: { rejectUnauthorized: false },
-      database: 'railway',
       entities: [User,CreateTodoEntity],
       synchronize: true, 
     }),
